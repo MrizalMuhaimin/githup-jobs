@@ -1,18 +1,25 @@
+import {useNavigate } from "react-router-dom";
+
 function Job(props){
-    const name = props.name;
-    const company = props.company;
-    const type = props.type;
+    let navigation = useNavigate();
+
+
     return(
-        <div className="border-t-2  m p-2 hover:cursor-pointer hover:bg-blue-100 " onClick={props.toUrl}>
-            <h2 className="font-bold text-lg">{name}</h2>
+        <div 
+        className="border-t-2  m p-2 hover:cursor-pointer hover:bg-blue-100 " 
+        onClick={()=>
+            navigation(`/detail/${props.jobsId}`)
+            }>
+
+            <h2 className="font-bold text-lg">{props.name}</h2>
             <div className="flex">
                 <p className="text-zinc-400">
-                    {company}
+                    {props.company}
 
                 </p>
                 <p className="text-zinc-400 px-2">-</p>
                 <p className="text-green-500">
-                    {type}
+                    {props.type}
 
                 </p>
             </div>

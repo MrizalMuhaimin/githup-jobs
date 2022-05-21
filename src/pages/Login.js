@@ -1,6 +1,8 @@
 import './Login.css'
-import { GoogleLogin } from 'react-google-login';
-// import { useState } from 'react';
+import {useState, useEffect} from "react"
+import {useNavigate } from "react-router-dom";
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
 
 
 
@@ -10,28 +12,48 @@ const clientId = '975407112440-t862v7ua2pg7mff90ih7a4nhthoj7jbu.apps.googleuserc
 
 
 function Login(){
+    let navigation = useNavigate();
+
+    const [loginData, setLoginData] = useState(
+        localStorage.getItem('loginData')
+          ? JSON.parse(localStorage.getItem('loginData'))
+          : null
+      );
     
-      const handleFailure = (result) => {
+    const handleFailure = (result) => {
         alert(result);
-        console.log(result)
       };
 
-      const handleLogin = (googleData) => {
-          console.log(googleData)
+    const handleLogin = (googleData) => {
+          setLoginData(googleData);
+          localStorage.setItem('loginData', JSON.stringify(googleData));
       }
 
+    useEffect(() => {
+        if(loginData !== null){
+            navigation("/home")
+        }
+    }, []);
+
+    
+
+    
+
     return (
+        
         <header className="Login-header">
             <h1>Github Jobs Login App</h1>
             <div>
           
+            <GoogleOAuthProvider clientId={clientId}>
                 <GoogleLogin
-                    clientId={clientId}
-                    buttonText="Log in with Google"
-                    onSuccess={handleLogin}
-                    onFailure={handleFailure}
-                    cookiePolicy={'single_host_origin'}
-                ></GoogleLogin>
+                    onSuccess={credentialResponse => {
+                        handleLogin(credentialResponse)
+                    }}
+                    onError={() => {
+                        handleFailure('Login Failed')
+                    }}/>
+            </GoogleOAuthProvider>
 
             </div>
         </header>
