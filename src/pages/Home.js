@@ -6,6 +6,7 @@ import LocationInput from "../components/LocationInput";
 import ButtonSearch from "../components/ButtonSearch";
 import Header from "../parts/Header/Header"
 import Job from "../components/Job";
+import more_horiz from "../assets/images/more_horiz.svg";
 
 
 
@@ -15,13 +16,18 @@ function Home(){
     const [jobdes, setJobdes] = useState("");
     const [loc, setLoc] = useState("");
     const [fullTime, setFullTime] = useState(false);
-    
-    
- 
+    const [noOfElemet, setNoOfElemet] = useState(6);
+
+    const [slice, setSlice] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [isMore, setIsMore] = useState(true);
+    const nElement = 6;
+
 
     const getAllData = async(job ="",loc="",fullTime=false)=>{
         let paramenter = "";
         let baseUrl ="http://dev3.dansmultipro.co.id/api/recruitment/positions.json"
+        setNoOfElemet(nElement);
 
         if(job !==""){
         
@@ -65,6 +71,15 @@ function Home(){
           })
           .then((actualData) => {
             setData(actualData);
+            setSlice(actualData.slice(0, nElement));
+            setIsMore(true);
+            
+            if(actualData && actualData.length <= noOfElemet){
+                setNoOfElemet(actualData.length)
+                setSlice(actualData.slice(0, noOfElemet));
+                setIsMore(false);
+            }
+            
             setError(null);
             })
           .catch((err) => {
@@ -78,27 +93,43 @@ function Home(){
         setJobdes(evt.target.value)
       }
 
-      function handleLocChange(evt) {
+    function handleLocChange(evt) {
         setLoc(evt.target.value)
       }
 
-      function handleTimeChange(evt) {
+    function handleTimeChange(evt) {
         setFullTime(!fullTime)
       }
 
-      function handleButtonSearcOnClick(evt){
+    function handleButtonSearcOnClick(evt){
         getAllData(jobdes,loc,fullTime)
-
         
       }
 
-      
+    function loadMore(){
+        
+        setLoading(true);
+        console.log(noOfElemet)
+        if(data && data.length >=  noOfElemet+nElement){
+            setNoOfElemet(noOfElemet + nElement);
+            console.log("masuk")
+        }
+
+        if(data && data.length <=  noOfElemet+nElement){
+            setNoOfElemet(data.length)
+            setIsMore(false);
+        }
+        setSlice(data.slice(0, noOfElemet+nElement));
+        console.log(noOfElemet)
+        setLoading(false);
+        
+    }
 
     useEffect(() => {
+        getAllData();
         
-        getAllData()
-
     }, []);
+    
 
     return (
     
@@ -139,13 +170,26 @@ function Home(){
                     <h2 className="font-bold text-3xl mt-2 mb-6 ">Job List</h2>
                     <div className="">
                         {error && (
-                            <div>{`There is a problem fetching the post data - ${error}`}</div>
+                            <div>{`There is a problem fetching the get data - ${error}`}</div>
                         )}
-                        {data &&
-                            data.map(({ id, type,company, title, location,created_at }) => (
+                        {data && slice &&
+                            slice.map(({ id, type,company, title, location,created_at }) => (
                                 <Job key={id} type={type}name={title} company={company} jobsId={id} location={location} date={new Date(created_at)} />
                         ))}
                     </div>
+                    { isMore &&(
+                        <div className="w-full mt-2 ">
+                            {loading &&(
+                                <p>Loadig ...</p>
+                            )}
+                            {! loading &&(
+                                <img src={more_horiz} alt="more" className="mr-auto ml-auto"></img>
+                            )}
+                            
+                            <button onClick={loadMore} className="rounded-md text-center w-full bg-sky-500 text-white p-1 hover:bg-sky-600">More Jobs</button>
+                        </div>
+                    )}
+                    
                 </div>
                 
 

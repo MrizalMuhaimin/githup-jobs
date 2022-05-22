@@ -40,7 +40,7 @@ function Detail(){
     return (
         <div className="w-full flex justify-center min-h-screen bg-slate-50 relative">
             {error && (
-            <div>{`There is a problem fetching the post data - ${error}`}</div>
+            <div>{`There is a problem fetching the get data - ${error}`}</div>
             )}
             {data && (
                 <div>
