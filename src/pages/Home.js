@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+import {useNavigate } from "react-router-dom";
 import JobDesInput from "../components/JobDesInput";
 import FulltimeInput from "../components/FulltimeInput";
 import LocationInput from "../components/LocationInput";
@@ -7,6 +8,7 @@ import ButtonSearch from "../components/ButtonSearch";
 import Header from "../parts/Header/Header"
 import Job from "../components/Job";
 import more_horiz from "../assets/images/more_horiz.svg";
+import jobsUrl from "../network/jobs"
 
 
 
@@ -23,10 +25,14 @@ function Home(){
     const [isMore, setIsMore] = useState(true);
     const nElement = 6;
 
+    let navigation = useNavigate();
+
+    const loginData = localStorage.getItem('loginData') ? JSON.parse(localStorage.getItem('loginData')): null
+
 
     const getAllData = async(job ="",loc="",fullTime=false)=>{
         let paramenter = "";
-        let baseUrl ="http://dev3.dansmultipro.co.id/api/recruitment/positions.json"
+        let baseUrl = jobsUrl
         setNoOfElemet(nElement);
 
         if(job !==""){
@@ -127,6 +133,10 @@ function Home(){
 
     useEffect(() => {
         getAllData();
+        if(!loginData){
+            navigation("/")
+
+        }
         
     }, []);
     
@@ -167,7 +177,7 @@ function Home(){
             <section className=" mt-48 w-full h-max  bg-white mr-auto ml-auto lg:w-4/5 mb-20">
                 
                 <div className="drop-shadow-lg rounded-sm p-10 w-full h-max bg-white">
-                    <h2 className="font-bold text-3xl mt-2 mb-6 ">Job List</h2>
+                    <h2 className="font-bold text-3xl mt-2 mb-6 ">{(data && data.length === 0) ? "No Suitable Job" : (data && (jobdes !=""  || loc !=""  || fullTime ==true)) ?`Showing ${data.length} Jobs`: "Job List"}</h2>
                     <div className="">
                         {error && (
                             <div>{`There is a problem fetching the get data - ${error}`}</div>

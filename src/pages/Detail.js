@@ -2,6 +2,8 @@ import {useParams } from 'react-router-dom'
 import {useState, useEffect } from 'react';
 import Header from '../parts/Header/Header';
 import CardJob from "../components/CardJob";
+import detailUrl from '../network/detail';
+import {useNavigate } from "react-router-dom";
 
 function Detail(){
 
@@ -9,8 +11,13 @@ function Detail(){
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
 
+    let navigation = useNavigate();
+
+    const loginData = localStorage.getItem('loginData') ? JSON.parse(localStorage.getItem('loginData')): null
+    
+
     const getData = (idJob = id) =>{
-        const baseUrl =`http://dev3.dansmultipro.co.id/api/recruitment/positions/${idJob}`
+        const baseUrl =`${detailUrl}${idJob}`
 
         fetch(`${baseUrl}`)
         .then((response) => {
@@ -33,6 +40,11 @@ function Detail(){
 
     useEffect(() => {
         getData();
+        if(!loginData){
+            navigation("/")
+
+        }
+        
     }, []);
 
 

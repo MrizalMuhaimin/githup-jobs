@@ -27,6 +27,7 @@ function Login(){
     const handleLogin = (googleData) => {
           setLoginData(googleData);
           localStorage.setItem('loginData', JSON.stringify(googleData));
+          navigation("/jobs");
       }
 
     useEffect(() => {
