@@ -31,7 +31,7 @@ function Login(){
 
     useEffect(() => {
         if(loginData !== null){
-            navigation("/home")
+            navigation("/jobs")
         }
     }, []);
 

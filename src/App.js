@@ -1,4 +1,4 @@
-import './App.css';
+
 import React from 'react';
 import {
   BrowserRouter,
@@ -15,8 +15,8 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="home" element={<Home />} />
-      <Route path="/detail/:id" element={<Detail />} />
+      <Route path="jobs" element={<Home />} />
+      <Route path="/jobs/:id" element={<Detail />} />
     </Routes>
   </BrowserRouter>
   );

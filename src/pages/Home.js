@@ -102,7 +102,7 @@ function Home(){
 
     return (
     
-        <div className="w-full flex justify-center  bg-slate-50 relative">
+        <div className="w-full flex justify-center  min-h-screen  bg-slate-50 relative">
             <section className="fixed  w-full top-0 left-0 right-0 z-10 bg-slate-50">
                 <div className="h-16 items-center p-2 bg-blue-400  ">
                     <div className=" w-full flex justify-center mr-auto ml-auto lg:w-4/5 lg:flex lg:justify-center">
@@ -111,7 +111,7 @@ function Home(){
                     
 
                 </div>
-                <div className="flex justify-between w-full p-2 mt-5 h-max content-center   mr-auto ml-auto lg:w-4/5">
+                <div className="flex justify-between w-full p-2 mt-5 h-max content-center mr-auto ml-auto lg:w-4/5">
                     <div className="w-2/6 p-2">
                         <JobDesInput onJobChange={handleJobChange} job={jobdes}/>
 
@@ -120,7 +120,7 @@ function Home(){
                         <LocationInput onLocChange={handleLocChange} loc={loc}/>
 
                     </div>
-                    <div className="w-2/6 flex justify-between content-center items-center text-center mt-5 ">
+                    <div className="w-2/6 flex justify-between content-center items-center text-center mt-5  p-2 ">
                         <div className="w-2/5 h-full">
                             <FulltimeInput onTimeChange={handleTimeChange} checked ={fullTime}/>
                         
@@ -133,7 +133,7 @@ function Home(){
                
 
             </section>
-            <section className=" mt-48 w-full h-max  bg-white mr-auto ml-auto lg:w-4/5">
+            <section className=" mt-48 w-full h-max  bg-white mr-auto ml-auto lg:w-4/5 mb-20">
                 
                 <div className="drop-shadow-lg rounded-sm p-10 w-full h-max bg-white">
                     <h2 className="font-bold text-3xl mt-2 mb-6 ">Job List</h2>
@@ -142,8 +142,8 @@ function Home(){
                             <div>{`There is a problem fetching the post data - ${error}`}</div>
                         )}
                         {data &&
-                            data.map(({ id, type,company, title }) => (
-                                <Job key={id} type={type}name={title} company={company} jobsId={id}/>
+                            data.map(({ id, type,company, title, location,created_at }) => (
+                                <Job key={id} type={type}name={title} company={company} jobsId={id} location={location} date={new Date(created_at)} />
                         ))}
                     </div>
                 </div>
