@@ -135,7 +135,6 @@ function Home(){
         getAllData();
         if(!loginData){
             navigation("/")
-
         }
         
     }, []);
@@ -177,7 +176,7 @@ function Home(){
             <section className=" mt-48 w-full h-max  bg-white mr-auto ml-auto lg:w-4/5 mb-20">
                 
                 <div className="drop-shadow-lg rounded-sm p-10 w-full h-max bg-white">
-                    <h2 className="font-bold text-3xl mt-2 mb-6 ">{(data && data.length === 0) ? "No Suitable Job" : (data && (jobdes !=""  || loc !=""  || fullTime ==true)) ?`Showing ${data.length} Jobs`: "Job List"}</h2>
+                    <h2 className="font-bold text-3xl mt-2 mb-6 ">{(data && data.length === 0) ? "No Suitable Job" : (data && (jobdes !==""  || loc !==""  || fullTime ===true)) ?`Showing ${data.length} Jobs`: "Job List"}</h2>
                     <div className="">
                         {error && (
                             <div>{`There is a problem fetching the get data - ${error}`}</div>
