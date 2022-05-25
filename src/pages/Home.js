@@ -137,7 +137,7 @@ function Home(){
             navigation("/")
         }
         
-    }, []);
+    },[]);
     
 
     return (

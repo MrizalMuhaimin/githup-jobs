@@ -16,36 +16,37 @@ function Detail(){
     const loginData = localStorage.getItem('loginData') ? JSON.parse(localStorage.getItem('loginData')): null
     
 
-    const getData = (idJob = id) =>{
-        const baseUrl =`${detailUrl}${idJob}`
-
-        fetch(`${baseUrl}`)
-        .then((response) => {
-            if (!response.ok) {
-              throw new Error(
-                `This is an HTTP error: The status is ${response.status}`
-              );
-            }
-            return response.json();
-          })
-          .then((actualData) => {
-            setData(actualData);
-            setError(null);
-            })
-          .catch((err) => {
-            setError(err.message);
-            setData(null);
-          });
-    }
+    
 
     useEffect(() => {
+        const getData = (idJob = id) =>{
+            const baseUrl =`${detailUrl}${idJob}`
+    
+            fetch(`${baseUrl}`)
+            .then((response) => {
+                if (!response.ok) {
+                  throw new Error(
+                    `This is an HTTP error: The status is ${response.status}`
+                  );
+                }
+                return response.json();
+              })
+              .then((actualData) => {
+                setData(actualData);
+                setError(null);
+                })
+              .catch((err) => {
+                setError(err.message);
+                setData(null);
+              });
+        }
         getData();
         if(!loginData){
             navigation("/")
 
         }
         
-    }, []);
+    },[id, loginData, navigation] );
 
 
 
